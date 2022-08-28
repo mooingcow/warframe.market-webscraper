@@ -1,13 +1,12 @@
 const fs = require('fs');
+var db = require('./databaseConnect.js');
 
 fs.watch('./data/all_items-unordered.json', (eventType, filename) => {
-    console.log(`event type is: ${eventType}`);
     if (filename) {
-        console.log(`filename provided: ${filename}`);
+        //write into all_items.json
         fs.readFile('./data/all_items-unordered.json', 'utf8', (err, data) => {
             var jsondata = JSON.parse(data);
-            console.log(jsondata.payload.items.length);
-
+            
             var items = jsondata.payload.items;
 
             var writedata = '{\n"items": [\n';
@@ -27,6 +26,7 @@ fs.watch('./data/all_items-unordered.json', (eventType, filename) => {
                 if (err) throw err; 
                 console.log('File Updated!');
             });
+            
         });
     } else {
         console.log('filename not provided');

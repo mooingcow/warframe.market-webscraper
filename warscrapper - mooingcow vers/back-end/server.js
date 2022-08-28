@@ -4,6 +4,7 @@ const fs = require('fs');
 const express=require('express');
 var app=express();
 const fork = require('child_process').fork;
+var db = require('./databaseConnect.js');
 
 //FUNCTIONS
 //function itemValidation(item_name){
@@ -13,7 +14,8 @@ const fork = require('child_process').fork;
 //SERVER INITIALISATION
 var port = 8081;
 var server = app.listen(port,function(){
-    var child = fork('./data/data_checker.js');
+    var child1 = fork('./data/data_checker.js');
+    var child2 = fork('./data/database_upload.js');
     console.log("App hosted at localhost:"+port); 
 });
 
@@ -126,7 +128,7 @@ app.get('/item/:item_name', function(req,res) {
         })
 });
 
-//get all items
+//get all items from data=base
 app.get('/item/all', function(req,res) {
     axios.get('https://api.warframe.market/v1/items')
         .then(function (response) {
